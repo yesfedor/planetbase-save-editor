@@ -5,11 +5,12 @@
   "scripts": {
     "app": "node app.js"
   },
-  "author": "",
+  "author": "yesfedor",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "fast-xml-parser": "^5.2.0",
+    "lodash": "^4.17.21",
     "readline-sync": "^1.4.10"
   }
 }

@@ -1,19 +1,14 @@
 const readline = require('readline-sync')
 const { resources} = require('../lib')
+const { getSpawnLocation } = require('../utils/getSpawnLocation')
 
-function getColonyShip(documentRoot) {
-  const colonyShip = documentRoot['save-game'].ships.ship
-
-  if (!colonyShip) throw new Error('ColonyShip not found!')
-
-  return colonyShip
-}
+const { getNextId, setNextId } = require('../utils/gameGenerator')
 
 function resourcesAddItem(documentRoot) {
   const resourceIndex = readline.keyInSelect(
     resources.types,
-    'Select resource:'
-  );
+    'Select resource: '
+  )
 
   if (resourceIndex === -1) {
     throw new Error('Cancelled')
@@ -26,28 +21,25 @@ function resourcesAddItem(documentRoot) {
     throw new Error('Incorrect number')
   }
 
-  const colonyShip = getColonyShip(documentRoot)
+  const spawnLocation = getSpawnLocation(documentRoot, 'resource')
 
-  let nextId = parseInt(documentRoot['save-game']['id-generator']['next-id']['@_value'])
-
-  nextId++;
+  let nextId = getNextId(documentRoot)
 
   const newResources = Array.from({length: count}, () => ({
     '@_type': selectedType,
     'trader-id': {'@_value': '-1'},
     id: {'@_value': nextId++},
-    position: colonyShip.position,
-    orientation: colonyShip.orientation,
-    state: colonyShip.state,
+    position: spawnLocation.position,
+    orientation: spawnLocation.orientation,
+    state: {'@_value': '0'},
     location: {'@_value': '1'},
     subtype: {'@_value': '0'},
     condition: {'@_value': '1'},
     durability: {'@_value': '1'},
   }))
 
-  colonyShip['resource-container'].resource.push(...newResources)
-  documentRoot['save-game']['id-generator']['next-id']['@_value'] = nextId
-  colonyShip['resource-container']['capacity']['@_value'] = Number(colonyShip['resource-container']['capacity']['@_value']) + count + 10
+  setNextId(documentRoot, nextId)
+  spawnLocation.onSaveResources(newResources)
 
   console.info(`\n\n=== Resource successful added: ${count} ${selectedType} pieces ===\n\n`)
 
@@ -55,8 +47,6 @@ function resourcesAddItem(documentRoot) {
 }
 
 function resourcesMenu(documentRoot) {
-  getColonyShip(documentRoot)
-
   documentRoot = resourcesAddItem(documentRoot)
 
   return documentRoot

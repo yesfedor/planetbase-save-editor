@@ -6,6 +6,7 @@ const {XMLParser, XMLBuilder} = require('fast-xml-parser')
 const welcomeMenuFn = require('./menu/welcome')
 const operationMenuFn = require('./menu/operation')
 const resourcesMenuFn = require('./menu/resources')
+const botMenuFn = require('./menu/bot')
 
 const options = {
   ignoreAttributes: false,
@@ -31,6 +32,10 @@ const operations = [
   {
     code: 'resources',
     name: 'Resource Management',
+  },
+  {
+    code: 'bot',
+    name: 'Bot Management',
   },
   {
     code: 'save_and_continue',
@@ -84,6 +89,10 @@ module.exports = {
       switch (operationMenuFn(operations)) {
         case 'resources':
           this.documentRoot = resourcesMenuFn(this.documentRoot)
+          this.start(true)
+          break
+        case 'bot':
+          this.documentRoot = botMenuFn(this.documentRoot)
           this.start(true)
           break
         case 'save_and_continue':
