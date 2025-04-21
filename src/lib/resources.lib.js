@@ -1,5 +1,5 @@
-module.exports = {
-  types: Object.keys(this.type),
+const payload = {
+  types: [],
 
   // additional info
   type: {
@@ -27,3 +27,7 @@ module.exports = {
     Semiconductors: {},
   },
 }
+
+payload.types = Object.keys(payload.type)
+
+module.exports = payload
