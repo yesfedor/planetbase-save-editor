@@ -1,10 +1,6 @@
 # Todo
-
-1. colonists managment
-2. 
-2. 
+1. more
 
 # Long todos
-
 - Web Interface
-- Support Planetbase 2
+- Support PlanetBase 2
