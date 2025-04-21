@@ -62,7 +62,7 @@ function addResources() {
 	// 7. Обновление данных
 	colonyShip['resource-container'].resource.push(...newResources);
 	saveGame['save-game']['id-generator']['next-id']['@_value'] = nextId;
-	colonyShip['resource-container'].capacity.value = Number(colonyShip['resource-container']['capacity']['@_value']) + count + 10
+	colonyShip['resource-container']['capacity']['@_value'] = Number(colonyShip['resource-container']['capacity']['@_value']) + count + 10
 
 	// 8. Сохранение файла
 	const newXml = builder.build(saveGame);
