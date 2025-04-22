@@ -7,6 +7,7 @@ const welcomeMenuFn = require('./menu/welcome')
 const operationMenuFn = require('./menu/operation')
 const resourcesMenuFn = require('./menu/resources')
 const botMenuFn = require('./menu/bot')
+const colonistMenuFn = require('./menu/colonist')
 
 const options = {
   ignoreAttributes: false,
@@ -36,6 +37,10 @@ const operations = [
   {
     code: 'bot',
     name: 'Bot Management',
+  },
+  {
+    code: 'colonist',
+    name: 'Colonist Management',
   },
   {
     code: 'save_and_continue',
@@ -93,6 +98,10 @@ module.exports = {
           break
         case 'bot':
           this.documentRoot = botMenuFn(this.documentRoot)
+          this.start(true)
+          break
+        case 'colonist':
+          this.documentRoot = colonistMenuFn(this.documentRoot)
           this.start(true)
           break
         case 'save_and_continue':

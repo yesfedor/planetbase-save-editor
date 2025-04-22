@@ -27,7 +27,7 @@ function botAddItem(documentRoot) {
     'integrity-decay-rate': {'@_value': '50000'},
     id: {'@_value': nextId++},
     position: spawnLocation.position,
-    orientation: spawnLocation.orientation,
+    orientation: { ...spawnLocation.orientation, '@_x': '0', '@_z': 0 },
     location: {'@_value': '1'},
     name: {'@_value': `${bots.type[selectedType].namePrefix}${nextId}`},
     specialization: {'@_value': bots.type[selectedType].specialization},
