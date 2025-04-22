@@ -67,14 +67,19 @@ function getSpawnLocation(documentRoot, type = 'resource') {
   let position = null
   let orientation = null
 
-  function onSaveEntity(entity = {}) {
+  function onSaveEntity(entity) {
     if (!documentRoot['save-game']['characters']) {
       documentRoot['save-game']['characters'] = {}
     }
     if (!documentRoot['save-game']['characters'].character) {
       documentRoot['save-game']['characters'].character = []
     }
-    documentRoot['save-game']['characters'].character.push(entity)
+
+    if (Array.isArray(entity)) {
+      documentRoot['save-game']['characters'].character.push(...entity)
+    } else {
+      documentRoot['save-game']['characters'].character.push(entity)
+    }
   }
 
   switch (selectedLocationType) {

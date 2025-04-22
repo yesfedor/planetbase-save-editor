@@ -18,9 +18,14 @@ function botAddItem(documentRoot) {
 
   const spawnLocation = getSpawnLocation(documentRoot, 'entity')
 
+  const count = parseInt(readline.question(`How many ${selectedType} should add? `))
+  if (isNaN(count)) {
+    throw new Error('Incorrect number')
+  }
+
   let nextId = getNextId(documentRoot)
 
-  const newBot = {
+  const newBots = Array.from({length: count}, () => ({
     '@_type': 'Bot',
     'status-flags': {'@_value': '0'},
     'wander-time': {'@_value': "17.92"},
@@ -34,10 +39,10 @@ function botAddItem(documentRoot) {
     state: {'@_value': '0'},
     Condition: {'@_value': '1'},
     Integrity: {'@_value': '1'},
-  }
+  }))
 
   setNextId(documentRoot, nextId)
-  spawnLocation.onSaveEntity(newBot)
+  spawnLocation.onSaveEntity(newBots)
 
   console.info(`\n\n=== Bot successful added: ${selectedType} ===\n\n`)
 

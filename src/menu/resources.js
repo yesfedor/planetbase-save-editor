@@ -16,12 +16,12 @@ function resourcesAddItem(documentRoot) {
 
   const selectedType = resources.types[resourceIndex]
 
-  const count = parseInt(readline.question('How many resources should add? '))
+  const spawnLocation = getSpawnLocation(documentRoot, 'resource')
+
+  const count = parseInt(readline.question(`How many ${selectedType} should add? `))
   if (isNaN(count)) {
     throw new Error('Incorrect number')
   }
-
-  const spawnLocation = getSpawnLocation(documentRoot, 'resource')
 
   let nextId = getNextId(documentRoot)
 

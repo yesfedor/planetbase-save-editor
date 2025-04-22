@@ -18,10 +18,16 @@ function colonistAddItem(documentRoot) {
 
   const spawnLocation = getSpawnLocation(documentRoot, 'entity')
 
+  const count = parseInt(readline.question(`How many ${selectedType} should add? `))
+  if (isNaN(count)) {
+    throw new Error('Incorrect number')
+  }
+
   let nextId = getNextId(documentRoot)
 
-  const gender = Math.floor(Math.random() * 2)
-  const newColonist = {
+  const getGender = () => Math.floor(Math.random() * 2)
+
+  const newColonists = Array.from({length: count}, () => ({
     '@_type': 'Colonist',
     'status-flags': {'@_value': '0'},
     'wander-time': {'@_value': "17.92"},
@@ -43,12 +49,12 @@ function colonistAddItem(documentRoot) {
     Oxygen: {'@_value': '1'},
     Sleep: {'@_value': '1'},
     Morale: {'@_value': '1'},
-    gender: {'@_value': gender},
+    gender: {'@_value': getGender()},
     doctor: {'@_value': 'False'},
-  }
+  }))
 
   setNextId(documentRoot, nextId)
-  spawnLocation.onSaveEntity(newColonist)
+  spawnLocation.onSaveEntity(newColonists)
 
   console.info(`\n\n=== Colonist successful added: ${selectedType} ===\n\n`)
 
