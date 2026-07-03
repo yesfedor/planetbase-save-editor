@@ -49,7 +49,7 @@ export class WorldMap {
   init(canvas: HTMLCanvasElement) {
     this.canvas = canvas
     const parent = canvas.parentElement!
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true })
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(0x0b1016)
