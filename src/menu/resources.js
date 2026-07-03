@@ -3,8 +3,9 @@ const { resources} = require('../lib')
 const { getSpawnLocation } = require('../utils/getSpawnLocation')
 
 const { getNextId, setNextId } = require('../utils/gameGenerator')
+const operationMenuFn = require("./operation");
 
-function resourcesAddItem(documentRoot) {
+function selectResourceMenu() {
   const resourceIndex = readline.keyInSelect(
     resources.types,
     'Select resource: '
@@ -14,7 +15,11 @@ function resourcesAddItem(documentRoot) {
     throw new Error('Cancelled')
   }
 
-  const selectedType = resources.types[resourceIndex]
+  return resources.types[resourceIndex]
+}
+
+function resourcesAddItem(documentRoot) {
+  const selectedType = selectResourceMenu()
 
   const spawnLocation = getSpawnLocation(documentRoot, 'resource')
 
@@ -46,8 +51,48 @@ function resourcesAddItem(documentRoot) {
   return documentRoot
 }
 
+function resourcesRemoveAllByType(documentRoot) {
+  const selectedType = selectResourceMenu()
+
+  const count = documentRoot['save-game'].resources.resource
+    .filter(
+      (item) => item['@_type'] === selectedType
+    )
+    ?.length || 0
+
+  if (count) {
+    documentRoot['save-game'].resources.resource = documentRoot['save-game'].resources.resource.filter(
+      (item) => item['@_type'] !== selectedType
+    )
+
+  }
+
+  console.info(`\n\n=== Resource successful removed: ${count || 0} ${selectedType} pieces ===\n\n`)
+
+  return documentRoot
+}
+
+const operations = [
+  {
+    code: 'add',
+    name: 'Resource Add',
+  },
+  {
+    code: 'resources_remove_all_by_type_',
+    name: 'Resource Remove All By Type',
+  },
+]
 function resourcesMenu(documentRoot) {
-  documentRoot = resourcesAddItem(documentRoot)
+  switch (operationMenuFn(operations)) {
+    case 'add':
+      documentRoot = resourcesAddItem(documentRoot)
+      break
+    case 'resources_remove_all_by_type_':
+      documentRoot = resourcesRemoveAllByType(documentRoot)
+      break
+    default:
+      break
+  }
 
   return documentRoot
 }
