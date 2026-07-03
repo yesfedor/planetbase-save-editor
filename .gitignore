@@ -26,3 +26,6 @@ logs
 # data files
 *.sav
 !example.sav
+
+# user runtime settings (web: chosen game folder)
+settings.json

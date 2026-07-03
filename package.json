@@ -1,16 +1,31 @@
 {
   "name": "planetbase-save-editor",
   "version": "1.0.0",
-  "main": "app.js",
+  "type": "module",
+  "main": "src/cli.ts",
   "scripts": {
-    "app": "node app.js"
+    "build": "vite build && nitro build",
+    "web": "node .output/server/index.mjs",
+    "dev": "node scripts/dev.mjs",
+    "cli": "node --loader ts-node/esm src/cli.ts",
+    "typecheck": "tsc --noEmit"
   },
   "author": "yesfedor",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@vitejs/plugin-vue": "^5.2.4",
     "fast-xml-parser": "^5.2.0",
-    "lodash": "^4.17.21",
-    "readline-sync": "^1.4.10"
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "vite": "^6.4.3"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.6.0",
+    "@types/three": "^0.185.0",
+    "nitropack": "^2.12.4",
+    "three": "^0.185.1",
+    "vue": "^3.5.39"
   }
 }

@@ -1,5 +1,14 @@
 # План 2026-Q3 — Web Interface v1
 
+> **Статус: ГОТОВО (2026-07-04).** Nitro-сервер (`src/server/`) + Vue SPA (`src/web/`)
+> реализованы и проверены вживую (SavePicker → Overview → Resources → Colonists/Bots →
+> Colony → 3D-карта). Запуск: `npm run dev` (nitro :3000 + vite :5173). Отчёт — внизу.
+>
+> Отличия от исходного плана: сервер держит `SaveDocument` в памяти (сессия), клиент шлёт
+> команды и получает компактные проекции (не 5MB JSON). Drag построек — нет (ломает игру);
+> drag колонистов/ботов/камеры — есть. Ресурсы в 3D — через `InstancedMesh` (GPU-инстансинг,
+> один draw call) с per-instance цветом по типу; отдельный GLSL-шейдер не потребовался.
+
 Цель: web-редактор поверх ядра из [plan-2026-q3-engine.md](./plan-2026-q3-engine.md).
 Web = **Vue SPA**; `server.ts` (nitro) — только мост между браузером и fs+engine.
 Схема сейва — [save-schema.md](./save-schema.md). **Начинаем ПОСЛЕ готового engine.**

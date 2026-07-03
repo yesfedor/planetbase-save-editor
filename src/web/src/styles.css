@@ -1,0 +1,143 @@
+:root {
+  --bg: #0b1016;
+  --bg-2: #121a24;
+  --panel: #16202c;
+  --panel-2: #1c2836;
+  --border: #24344a;
+  --border-2: #2e435e;
+  --text: #dbe6f2;
+  --muted: #7d90a6;
+  --accent: #38d6c8;
+  --accent-2: #f5a05a;
+  --danger: #e0556b;
+  --ok: #57c98a;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --radius: 10px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(1200px 800px at 70% -10%, #16283a 0%, var(--bg) 55%);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: border-color 0.15s, background 0.15s, transform 0.05s;
+}
+button:hover {
+  border-color: var(--accent);
+}
+button:active {
+  transform: translateY(1px);
+}
+button.primary {
+  background: linear-gradient(180deg, #3ad9cb, #23a99d);
+  border-color: #48e4d6;
+  color: #06231f;
+  font-weight: 600;
+}
+button.danger {
+  border-color: #5a2531;
+  color: #ff8fa0;
+}
+button.danger:hover {
+  border-color: #e0556b;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+input,
+select {
+  font: inherit;
+  background: var(--bg-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  outline: none;
+}
+input:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+.muted {
+  color: var(--muted);
+}
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.grow {
+  flex: 1;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  z-index: 50;
+  animation: rise 0.2s ease;
+}
+.toast.ok {
+  border-color: #2c6a4d;
+}
+.toast.err {
+  border-color: #6a2c39;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+}
