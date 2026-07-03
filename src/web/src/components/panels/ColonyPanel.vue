@@ -25,6 +25,22 @@ async function setLanding(key: string, value: string | number) {
   const res = await store.run(() => api.setLanding(key, value))
   if (res) commit(res.projection)
 }
+
+const enabledTechs = computed(() => new Set(p.value.techs))
+
+async function toggleTech(id: string) {
+  const next = new Set(p.value.techs)
+  if (next.has(id)) next.delete(id)
+  else next.add(id)
+  const res = await store.run(() => api.setTechs([...next]))
+  if (res) commit(res.projection)
+}
+
+async function setAllTechs(on: boolean) {
+  const ids = on ? p.value.meta.techs.map((t) => t.id) : []
+  const res = await store.run(() => api.setTechs(ids), on ? 'All techs unlocked' : 'All techs removed')
+  if (res) commit(res.projection)
+}
 </script>
 
 <template>
@@ -58,6 +74,22 @@ async function setLanding(key: string, value: string | number) {
           />
         </template>
       </div>
+    </div>
+
+    <div class="card block">
+      <div class="techs-head">
+        <h3>Technologies</h3>
+        <div class="row">
+          <button class="primary" @click="setAllTechs(true)">Unlock all</button>
+          <button class="ghost" @click="setAllTechs(false)">Clear</button>
+        </div>
+      </div>
+      <p class="muted hint">Unlocked techs let you build bots and bigger module versions without buying them from traders.</p>
+      <label v-for="t in p.meta.techs" :key="t.id" class="tech-row" :class="{ on: enabledTechs.has(t.id) }">
+        <input type="checkbox" :checked="enabledTechs.has(t.id)" @change="toggleTech(t.id)" />
+        <span class="tech-name">{{ t.label }}</span>
+        <span class="muted mono">{{ t.id }}</span>
+      </label>
     </div>
   </div>
 </template>
@@ -98,5 +130,49 @@ h3 {
 .seg button.active {
   background: var(--panel-2);
   color: var(--accent);
+}
+.techs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.techs-head h3 {
+  margin: 0;
+}
+.hint {
+  margin: 6px 0 14px;
+  font-size: 12px;
+}
+.tech-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.tech-row:hover {
+  background: var(--panel-2);
+}
+.tech-row.on {
+  border-color: #234b44;
+  background: rgba(56, 214, 200, 0.06);
+}
+.tech-row input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.tech-name {
+  flex: 1;
+  font-size: 14px;
+}
+.mono {
+  font-family: 'Cascadia Code', monospace;
+  font-size: 11px;
 }
 </style>

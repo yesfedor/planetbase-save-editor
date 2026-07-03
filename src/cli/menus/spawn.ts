@@ -5,7 +5,7 @@ import { selectOne, askFloat } from '../prompts.js'
 export type ResourceTarget =
   | { kind: 'ship' }
   | { kind: 'ground'; at: SpawnPoint }
-  | { kind: 'storage'; moduleId: string; free: number }
+  | { kind: 'storage'; moduleId: string }
 
 async function coordsPoint(): Promise<SpawnPoint> {
   const x = await askFloat('X coordinate:')
@@ -33,10 +33,9 @@ export async function chooseResourceTarget(doc: SaveDocument): Promise<ResourceT
   const info = storages.map((s) => core.storage.storageInfo(s))
   const moduleId = await selectOne(
     'Select storage module:',
-    info.map((i) => ({ value: i.id, label: `#${i.id}`, hint: `${i.freeSlots}/${i.totalSlots} free` })),
+    info.map((i) => ({ value: i.id, label: `#${i.id}`, hint: `${i.fillPercent}% full` })),
   )
-  const picked = info.find((i) => i.id === moduleId)!
-  return { kind: 'storage', moduleId, free: picked.freeSlots }
+  return { kind: 'storage', moduleId }
 }
 
 export async function chooseEntitySpawn(doc: SaveDocument): Promise<SpawnPoint> {

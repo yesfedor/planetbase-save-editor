@@ -8,7 +8,10 @@ const p = computed(() => store.projection!)
 const totalResources = computed(() => Object.values(p.value.counts).reduce((a, b) => a + b, 0))
 const colonists = computed(() => p.value.characters.filter((c) => c.kind === 'Colonist').length)
 const bots = computed(() => p.value.characters.filter((c) => c.kind === 'Bot').length)
-const freeSlots = computed(() => p.value.storages.reduce((a, s) => a + s.freeSlots, 0))
+const avgFill = computed(() => {
+  const s = p.value.storages
+  return s.length ? Math.round(s.reduce((a, x) => a + x.fillPercent, 0) / s.length) : 0
+})
 const topResources = computed(() =>
   Object.entries(p.value.counts).sort((a, b) => b[1] - a[1]),
 )
@@ -31,7 +34,7 @@ const topResources = computed(() =>
       </div>
       <div class="stat card">
         <div class="n">{{ p.storages.length }}</div>
-        <div class="l muted">Storages · {{ freeSlots }} free</div>
+        <div class="l muted">Storages · {{ avgFill }}% full</div>
       </div>
     </div>
 

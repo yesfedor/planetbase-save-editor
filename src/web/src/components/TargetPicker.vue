@@ -42,7 +42,7 @@ watch(
 if (p.value.airlocks.length) state.airlockId = p.value.airlocks[0].id
 
 if (props.mode === 'resource' && p.value.storages.length) {
-  const free = p.value.storages.find((s) => s.freeSlots > 0)
+  const free = p.value.storages.find((s) => !s.full)
   state.moduleId = (free ?? p.value.storages[0]).id
 }
 </script>
@@ -69,11 +69,11 @@ if (props.mode === 'resource' && p.value.storages.length) {
 
     <div v-else-if="state.kind === 'storage'" class="row">
       <select v-model="state.moduleId">
-        <option v-for="s in p.storages" :key="s.id" :value="s.id" :disabled="s.freeSlots === 0">
-          #{{ s.id }} — {{ s.freeSlots }}/{{ s.totalSlots }} free
+        <option v-for="s in p.storages" :key="s.id" :value="s.id" :disabled="s.full">
+          #{{ s.id }} — {{ s.fillPercent }}% full{{ s.full ? ' (full)' : '' }}
         </option>
       </select>
-      <span class="muted">fills empty slots (up to the limit)</span>
+      <span class="muted">stacks by resource height up to real capacity</span>
     </div>
 
     <div v-else-if="state.kind === 'airlock'" class="row">

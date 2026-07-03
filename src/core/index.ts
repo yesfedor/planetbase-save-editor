@@ -10,6 +10,7 @@ export * as characters from './services/characters.js'
 export * as colonists from './services/colonists.js'
 export * as bots from './services/bots.js'
 export * as colony from './services/colony.js'
+export * as techs from './services/techs.js'
 export * as camera from './services/camera.js'
 export * as worldMap from './services/map.js'
 

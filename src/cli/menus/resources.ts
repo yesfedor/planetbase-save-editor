@@ -21,7 +21,7 @@ async function addResources(doc: SaveDocument): Promise<void> {
   else if (target.kind === 'ground') placed = core.resources.addToGround(doc, type, count, target.at)
   else {
     placed = core.resources.addToStorage(doc, type, count, target.moduleId)
-    if (placed < count) p.log.warn(`Storage had ${target.free} free slots — placed ${placed}, dropped ${count - placed}.`)
+    if (placed < count) p.log.warn(`Storage capacity reached — placed ${placed}, dropped ${count - placed}.`)
   }
 
   p.log.success(`Added ${placed} ${type}.`)

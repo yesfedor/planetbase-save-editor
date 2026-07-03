@@ -68,6 +68,7 @@ export interface SaveGame {
     'next-id': Val
     'next-bot-id'?: Val
   }
+  techs?: { tech?: Val | Val[] } | Record<string, unknown>
   colony?: { name?: Val | Val[]; [key: string]: unknown }
   camera?: { position: Vec3; orientation: Vec3; [key: string]: unknown }
   characters?: { character?: CharacterNode | CharacterNode[] }

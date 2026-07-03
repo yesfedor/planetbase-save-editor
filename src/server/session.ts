@@ -40,12 +40,14 @@ export interface Projection {
   hasShip: boolean
   storages: core.storage.StorageInfo[]
   airlocks: { id: string; pos: core.Point3 }[]
+  techs: string[]
   characters: { id: string; kind: string; spec: string; name: string; pos: core.Point3 }[]
   meta: {
     resourceTypes: readonly string[]
     colonistSpecs: readonly string[]
     botSpecs: readonly string[]
     modules: number
+    techs: core.dictionaries.TechDef[]
   }
 }
 
@@ -75,12 +77,14 @@ export function projection(): Projection {
       .listByType(doc, 'ModuleTypeAirlock')
       .map((m) => core.modules.moduleInfo(m))
       .map((m) => ({ id: m.id, pos: m.position })),
+    techs: core.techs.list(doc),
     characters: chars,
     meta: {
       resourceTypes: core.RESOURCE_TYPES,
       colonistSpecs: core.COLONIST_SPECS,
       botSpecs: core.BOT_SPECS,
       modules: core.storage.listStorages(doc).length,
+      techs: core.dictionaries.TECHS,
     },
   }
 }

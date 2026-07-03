@@ -2,7 +2,10 @@ export interface StorageInfo {
   id: string
   moduleType: string
   totalSlots: number
-  freeSlots: number
+  usedHeight: number
+  budgetHeight: number
+  fillPercent: number
+  full: boolean
 }
 
 export interface CharacterView {
@@ -22,12 +25,14 @@ export interface Projection {
   hasShip: boolean
   storages: StorageInfo[]
   airlocks: { id: string; pos: { x: number; y: number; z: number } }[]
+  techs: string[]
   characters: CharacterView[]
   meta: {
     resourceTypes: string[]
     colonistSpecs: string[]
     botSpecs: string[]
     modules: number
+    techs: { id: string; label: string }[]
   }
 }
 
@@ -85,4 +90,5 @@ export const api = {
   moveCamera: (x: number, y: number, z: number) => req<{ ok: boolean }>('/api/camera/move', { x, y, z }),
   renameColony: (name: string) => req<{ projection: Projection }>('/api/colony/rename', { name }),
   setLanding: (key: string, value: string | number) => req<{ projection: Projection }>('/api/colony/landing', { key, value }),
+  setTechs: (techs: string[]) => req<{ techs: string[]; projection: Projection }>('/api/techs/set', { techs }),
 }
